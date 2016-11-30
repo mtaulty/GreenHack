@@ -41,7 +41,7 @@ public class EchoDialog : IDialog<object>
         }
         else
         {
-            await context.PostAsync($"{this.count++}: You rather inanely said {message.Text}");
+            await context.PostAsync($"{this.count++}: You rather inanely ++ said {message.Text}");
             context.Wait(MessageReceivedAsync);
         }
     }
