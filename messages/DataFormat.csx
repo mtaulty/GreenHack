@@ -68,14 +68,14 @@
 	public override string ToString()
 	{
         return (
-            $"{this.col2} away, {this.col1} has {this.type} spaces for {this.col3}\n[Get Driving Directions]({this.DrivingDirectionsLink})");
+            $"{this.col2} away, [{this.col1}]({this.DrivingDirectionsLink}) has {this.type} spaces for {this.col3}");
     }
     public string DrivingDirectionsLink
     {
         get
         {
             return (
-                $"www.bing.com/maps/default.aspx?mode=D&rtp=~pos.{this.lat}_{this.lon}");
+                $"www.bing.com/maps/default.aspx?mode=D&rtp=~pos.{this.lat}_{this.lng}");
         }
     }
   }
