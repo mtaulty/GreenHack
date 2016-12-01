@@ -13,6 +13,14 @@ public class EchoDialog : IDialog<object>
 {
     protected int count = 1;
     protected bool helpPrompt = false;
+    protected string location = "";
+    protected DialogState currentState = DialogState.Start;
+
+    enum DialogState
+    {
+        Start,
+        WaitingForPriority
+    };
 
     public Task StartAsync(IDialogContext context)
     {
@@ -35,17 +43,39 @@ public class EchoDialog : IDialog<object>
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
         var message = await argument;
-        var reply = "I'm a car park finder. Please tell me where you are looking to park.";
+        var reply = "I'm in a muddle. Please ask for 'help'.";
 
-        if (!helpPrompt)
+        if (!helpPrompt || message.Text = "help")
         {
-            context.PostAsync($"Where do you want to park? Type 'help' to see what else I can do for you.");
+            context.PostAsync("Tell me where you want to park.");
+            currentState = DialogState.Start;
             helpPrompt = true;
         }
 
-        var helper = new ParkopediaApiHelper();
+        if (currentState == DialogState.Start)
+        {
+            location = message.Text;
+            currentState = DialogState.WaitingForPriority;
 
-        var response = await helper.SearchForParkingAsync<ServiceResponse>(message.Text);
+            PromptDialog.Choice(context, SelectPriority, new List<string>(){
+                "Price",
+                "Availability",
+                "Distance",
+                "Rating"
+                }, "What's most important to you?");
+        }
+
+        context.Wait(MessageReceivedAsync);
+    }
+
+    public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
+    {
+        var choice = await priority;
+        var sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), choice);
+
+        var helper = new ParkopediaApiHelper();
+        var response = await helper.SearchForParkingAsync<ServiceResponse>(message.Text,
+            sortOrder);
 
         if (response.IsValid)
         {
@@ -60,19 +90,12 @@ public class EchoDialog : IDialog<object>
             {
                 reply = $"I found at least {count} car parks for you";
             }
-            //foreach (var item in response.result.spaces)
-            //{
-            //    Console.WriteLine(
-            //      $"{item.city}, {string.Join(",", item.addresses)}, {item.lat}, {item.lng}, {item.phone}");
-            //}
         }
         else
         {
             reply = "I'm sorry, I couldn't talk to my car park friend to find out. Call back later";
         }
         await context.PostAsync(reply);
-
-        context.Wait(MessageReceivedAsync);
     }
 
     public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
