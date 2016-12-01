@@ -57,6 +57,11 @@
     public Streetview streetview { get; set; }
     public Geometry[] geometry { get; set; }
     public Sort sort { get; set; }
+
+	public override ToString()
+	{
+		return($"Parking of Type {this.type} at {this.col1}, {this.col2}, {this.col3}");
+	}
   }
 
   public class Icon
