@@ -5,6 +5,13 @@
     public string error { get; set; }
     public string errorcode { get; set; }
 
+    public bool IsNoParking
+    {
+        get
+        {
+            return (this.status == "ERROR" && this.errorcode == "ERR_SEARCH_NOTFOUND");
+        }
+    }
     public bool IsValid
     {
       get
