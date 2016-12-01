@@ -39,6 +39,11 @@ public class EchoDialog : IDialog<object>
                 "Didn't get that!",
                 promptStyle: PromptStyle.Auto);
         }
+        else if (message.Text == "help")
+        {
+            await context.PostAsync("I'm a car park finder. Please tell me where you are looking to park.");
+            context.Wait(MessageReceivedAync);
+        }
         else
         {
             var utility = new BotUtilities();
