@@ -83,7 +83,11 @@ public class EchoDialog : IDialog<object>
         var response = await helper.SearchForParkingAsync<ServiceResponse>(this.location,
             sortOrder);
 
-        if (response.IsValid)
+        if (response.IsNoParking)
+        {
+            reply = $"I'm sorry, I can't find any spaces around {this.location} right now, check back later";
+        }
+        else if (response.IsValid)
         {
             var topThree = response.result.spaces.Take(3);
             var count = topThree.Count();
@@ -99,7 +103,7 @@ public class EchoDialog : IDialog<object>
         }
         else
         {
-            reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}";
+            reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}. My friend says {response.error} ({response.errorcode}).";
         }
 
         await context.PostAsync(reply);
