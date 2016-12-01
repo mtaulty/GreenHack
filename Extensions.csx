@@ -1,8 +1,13 @@
 ﻿using System;
 
-public class Extensions
+public class BotUtilities
 {
-	public Extensions()
+	public BotUtilities()
 	{
 	}
+
+    public string FormatReply(int count, string message)
+    {
+        return ($"{count}: I think you said {message}");
+    }
 }
