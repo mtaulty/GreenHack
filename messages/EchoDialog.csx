@@ -92,13 +92,11 @@ public class EchoDialog : IDialog<object>
             var topThree = response.result.spaces.Take(3);
             var count = topThree.Count();
 
-            if (count == 0)
+            reply = $"I found at least {count} car parks for you.";
+
+            foreach (var carpark in topThree)
             {
-                reply = "I'm sorry, I didn't find any car parks at that location";
-            }
-            else
-            {
-                reply = $"I found at least {count} car parks for you";
+                reply += $"\n\n{carpark}";
             }
         }
         else
