@@ -35,33 +35,43 @@ public class EchoDialog : IDialog<object>
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
         var message = await argument;
-        if (message.Text == "reset")
+        var reply = "I'm a car park finder. Please tell me where you are looking to park.";
+
+        if (!helpPrompt)
         {
-            PromptDialog.Confirm(
-                context,
-                AfterResetAsync,
-                "Are you sure you want to reset the count?",
-                "Didn't get that!",
-                promptStyle: PromptStyle.Auto);
+            context.PostAsync($"Where do you want to park? Type 'help' to see what else I can do for you.");
+            helpPrompt = true;
         }
-        else if (message.Text == "help")
+
+        var helper = new ParkopediaApiHelper();
+
+        var response = await helper.SearchForParkingAsync<ServiceResponse>(message.Text);
+
+        if (response.IsValid)
         {
-            await context.PostAsync($"I'm a car park finder. Please tell me where you are looking to park.");
-            context.Wait(MessageReceivedAsync);
+            var topThree = response.result.spaces.Take(3);
+
+            if (topThree?.Count == 0)
+            {
+                reply = "I'm sorry, I didn't find any car parks at that location";
+            }
+            else
+            {
+                reply = $"I found at least {topThree.Count} car parks for you";
+            }
+            //foreach (var item in response.result.spaces)
+            //{
+            //    Console.WriteLine(
+            //      $"{item.city}, {string.Join(",", item.addresses)}, {item.lat}, {item.lng}, {item.phone}");
+            //}
         }
         else
         {
-            if(!helpPrompt)
-            {
-                context.PostAsync($"Where do you want to park? Type 'help' to see what else I can do for you.");
-                helpPrompt = true;
-            }
-
-            var utility = new BotUtilities();
-            await context.PostAsync(utility.FormatReply(count++, message.Text));
-//            await context.PostAsync($"{this.count++}: You said {message.Text}");
-            context.Wait(MessageReceivedAsync);
+            reply = "I'm sorry, I couldn't talk to my car park friend to find out. Call back later";
         }
+        await context.PostAsync(reply);
+
+        context.Wait(MessageReceivedAsync);
     }
 
     public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
@@ -77,17 +87,5 @@ public class EchoDialog : IDialog<object>
             await context.PostAsync("Did not reset count.");
         }
         context.Wait(MessageReceivedAsync);
-    }
-}
-
-public class BotUtilities
-{
-    public BotUtilities()
-    {
-    }
-
-    public string FormatReply(int count, string message)
-    {
-        return ($"{count}: I think you said {message}");
     }
 }
