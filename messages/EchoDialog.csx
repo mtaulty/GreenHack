@@ -44,27 +44,30 @@ public class EchoDialog : IDialog<object>
     {
         var message = await argument;
         var reply = "I'm in a muddle. Please ask for 'help'.";
+        var wait = true;
 
         if (!helpPrompt || (message.Text == "help"))
         {
-            context.PostAsync("Tell me where you want to park.");
+            await context.PostAsync("Tell me where you want to park.");
             currentState = DialogState.Start;
             helpPrompt = true;
         }
-
-        if (currentState == DialogState.Start)
+        else if (currentState == DialogState.Start)
         {
             location = message.Text;
             currentState = DialogState.WaitingForPriority;
 
             PromptDialog.Choice(context, AfterSelectPriorityAsync, new List<string>(){
-                "Price",
-                "Availability",
-                "Distance",
-                "Rating"
-                }, "What's most important to you?");
+            "Price",
+            "Availability",
+            "Distance",
+            "Rating"
+            }, "What's most important to you?");
+
+            wait = false;
         }
-        else
+
+        if(wait)
         {
             context.Wait(MessageReceivedAsync);
         }
