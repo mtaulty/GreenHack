@@ -41,8 +41,8 @@ public class EchoDialog : IDialog<object>
         }
         else if (message.Text == "help")
         {
-            await context.PostAsync("I'm a car park finder. Please tell me where you are looking to park.");
-            context.Wait(MessageReceivedAync);
+            await context.PostAsync($"I'm a car park finder. Please tell me where you are looking to park.");
+            context.Wait(MessageReceivedAsync);
         }
         else
         {
