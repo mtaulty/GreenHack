@@ -45,7 +45,7 @@ public class EchoDialog : IDialog<object>
         var message = await argument;
         var reply = "I'm in a muddle. Please ask for 'help'.";
 
-        if (!helpPrompt || message.Text = "help")
+        if (!helpPrompt || (message.Text == "help"))
         {
             context.PostAsync("Tell me where you want to park.");
             currentState = DialogState.Start;
