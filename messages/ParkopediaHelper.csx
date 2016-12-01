@@ -46,7 +46,7 @@ using System.Threading.Tasks;
       var parameters = new Dictionary<string, string>()
       {
         [queryParameterName] = location,
-        [sortOrderParameterName] = sortOrder.ToString().ToLower()
+        //[sortOrderParameterName] = sortOrder.ToString().ToLower()
       };
       var result = await this.MakeWebRequestAsync<T>(ParkopediaApi.Search, parameters);
 

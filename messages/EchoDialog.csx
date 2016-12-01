@@ -43,7 +43,6 @@ public class EchoDialog : IDialog<object>
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
         var message = await argument;
-        var reply = "I'm in a muddle. Please ask for 'help'.";
         var wait = true;
 
         if (!helpPrompt || (message.Text == "help"))
