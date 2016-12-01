@@ -8,6 +8,7 @@ using Microsoft.Bot.Connector;
 public class EchoDialog : IDialog<object>
 {
     protected int count = 1;
+    protected bool helpPrompt = false;
 
     public Task StartAsync(IDialogContext context)
     {
@@ -46,6 +47,12 @@ public class EchoDialog : IDialog<object>
         }
         else
         {
+            if(!helpPrompt)
+            {
+                context.PostAsync($"Type 'help' to see what I can do.");
+                helpPrompt = true;
+            }
+
             var utility = new BotUtilities();
             await context.PostAsync(utility.FormatReply(count++, message.Text));
 //            await context.PostAsync($"{this.count++}: You said {message.Text}");
