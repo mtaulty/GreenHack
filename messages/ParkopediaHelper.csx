@@ -14,6 +14,14 @@ using System.Threading.Tasks;
   {
     Search
   }
+  public enum SortOrder
+  {
+    Price,
+    Rating,
+    Distance,
+    Name,
+    Availability
+  }
   public class ParkopediaApiHelper
   {
     public ParkopediaApiHelper()
@@ -32,11 +40,13 @@ using System.Threading.Tasks;
         ["v"] = GetV        
       };
     }
-    public async Task<T> SearchForParkingAsync<T>(string location)
-    {
+    public async Task<T> SearchForParkingAsync<T>(string location,
+      SortOrder sortOrder = SortOrder.Rating)
+    {      
       var parameters = new Dictionary<string, string>()
       {
-        [queryParameterName] = location
+        [queryParameterName] = location,
+        [sortOrderParameterName] = sortOrder.ToString().ToLower()
       };
       var result = await this.MakeWebRequestAsync<T>(ParkopediaApi.Search, parameters);
 
@@ -205,5 +215,6 @@ using System.Threading.Tasks;
     readonly string passwordValue = "ISFZgSPfiaNoncFN";
     readonly string sigParameterName = "sig";
     readonly string vValue = "1.4";
+    readonly string sortOrderParameterName = "sort";
   }
  
