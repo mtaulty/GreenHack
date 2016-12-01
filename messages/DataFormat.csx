@@ -67,8 +67,8 @@
 
 	public override string ToString()
 	{
-		return($"Parking of Type {this.type} at {this.col1}, {this.col2}, {this.col3}");
-	}
+        return ($"{this.col2} away, {this.col1} has {this.type} spaces for {this.col3}");
+    }
   }
 
   public class Icon
