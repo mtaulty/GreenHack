@@ -110,8 +110,6 @@ public class EchoDialog : IDialog<object>
                 {
                     reply += $"\n\n{carpark}";
                 }
-
-                reply += "\n\n[display](bingmaps:?cp=40.726966~-74.006076)";
             }
             else
             {
