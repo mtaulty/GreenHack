@@ -16,7 +16,7 @@ public class EchoDialog : IDialog<object>
     protected string location = "";
     protected DialogState currentState = DialogState.Start;
 
-    enum DialogState
+    protected enum DialogState
     {
         Start,
         WaitingForPriority
