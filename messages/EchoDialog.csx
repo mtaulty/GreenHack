@@ -57,7 +57,7 @@ public class EchoDialog : IDialog<object>
             location = message.Text;
             currentState = DialogState.WaitingForPriority;
 
-            PromptDialog.Choice(context, SelectPriority, new List<string>(){
+            PromptDialog.Choice(context, AfterSelectPriorityAsync, new List<string>(){
                 "Price",
                 "Availability",
                 "Distance",
