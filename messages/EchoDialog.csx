@@ -49,7 +49,7 @@ public class EchoDialog : IDialog<object>
         {
             if(!helpPrompt)
             {
-                context.PostAsync($"Type 'help' to see what I can do.");
+                context.PostAsync($"Where do you want to park? Type 'help' to see what else I can do for you.");
                 helpPrompt = true;
             }
 
