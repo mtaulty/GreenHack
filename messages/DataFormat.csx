@@ -2,6 +2,8 @@
   {
     public string status { get; set; }
     public Result result { get; set; }
+    public string error { get; set; }
+    public string errorcode { get; set; }
 
     public bool IsValid
     {
