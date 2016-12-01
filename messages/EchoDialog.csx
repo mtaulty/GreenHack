@@ -70,11 +70,13 @@ public class EchoDialog : IDialog<object>
 
     public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
     {
+        string reply = string.Empty;
+
         var choice = await priority;
         var sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), choice);
 
         var helper = new ParkopediaApiHelper();
-        var response = await helper.SearchForParkingAsync<ServiceResponse>(message.Text,
+        var response = await helper.SearchForParkingAsync<ServiceResponse>(this.location,
             sortOrder);
 
         if (response.IsValid)
