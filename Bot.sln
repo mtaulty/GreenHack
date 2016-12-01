@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		commands.json = commands.json
 		debughost.cmd = debughost.cmd
+		messages\ParkopediaHelper.csx = messages\ParkopediaHelper.csx
 		readme.md = readme.md
 	EndProjectSection
 EndProject
@@ -28,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "messages", "messages", "{F4
 		messages\DataFormat.csx = messages\DataFormat.csx
 		messages\EchoDialog.csx = messages\EchoDialog.csx
 		messages\function.json = messages\function.json
+		messages\ParkopediaHelper.csx = messages\ParkopediaHelper.csx
 		messages\project.json = messages\project.json
 		messages\project.lock.json = messages\project.lock.json
 		messages\run.csx = messages\run.csx
