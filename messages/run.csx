@@ -1,6 +1,5 @@
 #r "Newtonsoft.Json"
 #load "EchoDialog.csx"
-#load "Extensions.csx"
 
 using System;
 using System.Net;
