@@ -74,7 +74,7 @@ public class EchoDialog : IDialog<object>
     public async Task AfterResetAsync(IDialogContext context)
     {
         await context.PostAsync("Tell me where you want to park.");
-        this.currentState = DialogState.WaitingForLocation;
+        this.currentState = DialogState.Start;
     }
 
     public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
