@@ -99,7 +99,7 @@ public class EchoDialog : IDialog<object>
         }
         else
         {
-            reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}";
+            reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}. My friend says {response.error} ({response.errorcode}).";
         }
 
         await context.PostAsync(reply);
