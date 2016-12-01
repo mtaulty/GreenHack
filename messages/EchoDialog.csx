@@ -1,4 +1,5 @@
 #r "Newtonsoft.Json"
+#load "DataFormat.csx"
 
 using System;
 using System.Threading.Tasks;
@@ -54,6 +55,8 @@ public class EchoDialog : IDialog<object>
                 context.PostAsync($"Where do you want to park? Type 'help' to see what else I can do for you.");
                 helpPrompt = true;
             }
+
+            var classtest = new Class1();
 
             var utility = new BotUtilities();
             await context.PostAsync(utility.FormatReply(count++, message.Text));
