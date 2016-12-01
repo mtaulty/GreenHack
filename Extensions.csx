@@ -1,5 +1,6 @@
 ﻿using System;
 
+[Serializable]
 public class BotUtilities
 {
 	public BotUtilities()
