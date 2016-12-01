@@ -42,10 +42,16 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                     if (update.MembersAdded.Any())
                     {
                         var reply = activity.CreateReply();
-                        foreach (var newMember in update.MembersAdded)
+                        var newMembers = update.MembersAdded;
+                        foreach (var newMember in newMembers)
                         {
-                            reply.Text = $"Welcome {newMember.Name}! ";
-                            await client.Conversations.ReplyToActivityAsync(message);
+                            reply.Text = "Welcome";
+                            if (!string.IsNullOrEmpty(newMember.Name))
+                            {
+                                reply.Text += $" {newMember.Name}";
+                            }
+                            reply.Text += "!";
+                            await client.Conversations.ReplyToActivityAsync(reply);
                         }
                     }
                     break;
