@@ -44,14 +44,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                         var reply = activity.CreateReply();
                         foreach (var newMember in update.MembersAdded)
                         {
-                            if (newMember.Id != message.Recipient.Id)
-                            {
-                                reply.Text = $"Welcome {newMember.Name}! ";
-                            }
-                            else
-                            {
-                                reply.Text = $"Welcome {message.From.Name}";
-                            }
+                            reply.Text = $"Welcome {newMember.Name}! ";
                             await client.Conversations.ReplyToActivityAsync(message);
                         }
                     }
