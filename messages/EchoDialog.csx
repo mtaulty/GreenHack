@@ -56,7 +56,7 @@ public class EchoDialog : IDialog<object>
                 helpPrompt = true;
             }
 
-            var classtest = new Class1();
+            
 
             var utility = new BotUtilities();
             await context.PostAsync(utility.FormatReply(count++, message.Text));
