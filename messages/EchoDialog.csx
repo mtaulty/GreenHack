@@ -50,14 +50,15 @@ public class EchoDialog : IDialog<object>
         if (response.IsValid)
         {
             var topThree = response.result.spaces.Take(3);
+            var count = topThree.Count();
 
-            if (topThree?.Count == 0)
+            if (count == 0)
             {
                 reply = "I'm sorry, I didn't find any car parks at that location";
             }
             else
             {
-                reply = $"I found at least {topThree.Count} car parks for you";
+                reply = $"I found at least {count} car parks for you";
             }
             //foreach (var item in response.result.spaces)
             //{
