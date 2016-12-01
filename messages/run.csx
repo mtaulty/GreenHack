@@ -60,7 +60,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 case ActivityTypes.DeleteUserData:
                 case ActivityTypes.Ping:
                 default:
-                    reply.Text = "I'm the Green Parking Bot. Please enter the location you would like to find parking at.";
+                    reply.Text = "Please enter the location you would like to find parking at.";
                     log.Error($"Unknown activity type ignored: {activity.GetActivityType()}");
                     break;
             }
