@@ -12,13 +12,13 @@ using Microsoft.Bot.Connector;
 public class EchoDialog : IDialog<object>
 {
     protected int count = 1;
-    protected bool helpPrompt = false;
     protected string location = "";
     protected DialogState currentState = DialogState.Start;
 
     protected enum DialogState
     {
         Start,
+        WaitingForLocation,
         WaitingForPriority
     };
 
@@ -45,13 +45,11 @@ public class EchoDialog : IDialog<object>
         var message = await argument;
         var wait = true;
 
-        if (!helpPrompt || (message.Text == "help"))
+        if ((currentState == DialogState.Start) || (message.Text == "reset") || (message.Text == "help"))
         {
-            await context.PostAsync("Tell me where you want to park.");
-            currentState = DialogState.Start;
-            helpPrompt = true;
+            await AfterResetAsync(context);
         }
-        else if (currentState == DialogState.Start)
+        else if (currentState == DialogState.WaitingForLocation)
         {
             location = message.Text;
             currentState = DialogState.WaitingForPriority;
@@ -60,7 +58,8 @@ public class EchoDialog : IDialog<object>
             "Price",
             "Availability",
             "Distance",
-            "Rating"
+            "Rating",
+            "(Start Over)"
             }, "What's most important to you?");
 
             wait = false;
@@ -72,42 +71,53 @@ public class EchoDialog : IDialog<object>
         }
     }
 
+    public async Task AfterResetAsync(IDialogContext context)
+    {
+        await context.PostAsync("Tell me where you want to park.");
+        this.currentState = DialogState.WaitingForLocation;
+    }
+
     public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
     {
         string reply = string.Empty;
-
         var choice = await priority;
-        var sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), choice);
 
-        var helper = new ParkopediaApiHelper();
-        var response = await helper.SearchForParkingAsync<ServiceResponse>(this.location,
-            sortOrder);
-
-        if (response.IsNoParking)
+        if(choice == "(Start Over)")
         {
-            reply = $"I'm sorry, I can't find any spaces around {this.location} right now, check back later";
-        }
-        else if (response.IsValid)
-        {
-            var topThree = response.result.spaces.Take(3);
-            var count = topThree.Count();
-
-            reply = $"I found at least {count} car parks for you.";
-
-            foreach (var carpark in topThree)
-            {
-                reply += $"\n\n{carpark}";
-            }
+            await AfterResetAsync(context);
         }
         else
         {
-            reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}. My friend says {response.error} ({response.errorcode}).";
+            var sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), choice);
+
+            var helper = new ParkopediaApiHelper();
+            var response = await helper.SearchForParkingAsync<ServiceResponse>(this.location,
+                sortOrder);
+
+            if (response.IsNoParking)
+            {
+                reply = $"I'm sorry, I can't find any spaces around {this.location} right now, check back later";
+            }
+            else if (response.IsValid)
+            {
+                var topThree = response.result.spaces.Take(3);
+                var count = topThree.Count();
+
+                reply = $"I found at least {count} car parks for you.";
+
+                foreach (var carpark in topThree)
+                {
+                    reply += $"\n\n{carpark}";
+                }
+            }
+            else
+            {
+                reply = $"I'm sorry, I couldn't find a car park for {this.location} prioritized by {sortOrder}. My friend says {response.error} ({response.errorcode}).";
+            }
+
+            await context.PostAsync(reply);
+            await AfterResetAsync(context);
         }
-
-        await context.PostAsync(reply);
-
-        currentState = DialogState.Start;
-        context.Wait(MessageReceivedAsync);
     }
 
     public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
