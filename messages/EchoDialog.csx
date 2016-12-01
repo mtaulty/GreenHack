@@ -85,6 +85,7 @@ public class EchoDialog : IDialog<object>
         if (choice == "(Start Over)")
         {
             await AfterResetAsync(context);
+            context.Wait(MessageReceivedAsync);
         }
         else
         {
