@@ -64,8 +64,10 @@ public class EchoDialog : IDialog<object>
                 "Rating"
                 }, "What's most important to you?");
         }
-
-        context.Wait(MessageReceivedAsync);
+        else
+        {
+            context.Wait(MessageReceivedAsync);
+        }
     }
 
     public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
@@ -97,7 +99,11 @@ public class EchoDialog : IDialog<object>
         {
             reply = "I'm sorry, I couldn't talk to my car park friend to find out. Call back later";
         }
+
         await context.PostAsync(reply);
+
+        currentState = DialogState.Start;
+        context.Wait(MessageReceivedAsync);
     }
 
     public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
