@@ -5,13 +5,6 @@
     public string error { get; set; }
     public string errorcode { get; set; }
 
-    public bool IsNoParking
-    {
-        get
-        {
-            return (this.status == "ERROR" && this.errorcode == "ERR_SEARCH_NOTFOUND");
-        }
-    }
     public bool IsValid
     {
       get
@@ -65,7 +58,7 @@
     public Geometry[] geometry { get; set; }
     public Sort sort { get; set; }
 
-	public override ToString()
+	public override string ToString()
 	{
 		return($"Parking of Type {this.type} at {this.col1}, {this.col2}, {this.col3}");
 	}
