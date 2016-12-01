@@ -65,7 +65,7 @@ public class EchoDialog : IDialog<object>
             wait = false;
         }
 
-        if(wait)
+        if (wait)
         {
             context.Wait(MessageReceivedAsync);
         }
@@ -74,7 +74,7 @@ public class EchoDialog : IDialog<object>
     public async Task AfterResetAsync(IDialogContext context)
     {
         await context.PostAsync("Tell me where you want to park.");
-        this.currentState = DialogState.Start;
+        this.currentState = DialogState.WaitingForLocation;
     }
 
     public async Task AfterSelectPriorityAsync(IDialogContext context, IAwaitable<string> priority)
@@ -82,7 +82,7 @@ public class EchoDialog : IDialog<object>
         string reply = string.Empty;
         var choice = await priority;
 
-        if(choice == "(Start Over)")
+        if (choice == "(Start Over)")
         {
             await AfterResetAsync(context);
         }
@@ -117,21 +117,8 @@ public class EchoDialog : IDialog<object>
 
             await context.PostAsync(reply);
             await AfterResetAsync(context);
+            context.Wait(MessageReceivedAsync);
         }
     }
 
-    public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
-    {
-        var confirm = await argument;
-        if (confirm)
-        {
-            this.count = 1;
-            await context.PostAsync("Reset count.");
-        }
-        else
-        {
-            await context.PostAsync("Did not reset count.");
-        }
-        context.Wait(MessageReceivedAsync);
-    }
 }
