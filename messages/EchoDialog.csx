@@ -37,7 +37,7 @@ public class EchoDialog : LuisDialog<object>
     //    context.Wait(MessageReceived);
     //}
 
-    public override Task StartAsync(IDialogContext context)
+    public async override Task StartAsync(IDialogContext context)
     {
         await base.StartAsync(context);
 
