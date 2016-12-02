@@ -65,10 +65,31 @@ public class EchoDialog : IDialog<object>
         return Task.CompletedTask;
     }
 
+    static async Task<String> CallLuisParkingModelAsync(string message)
+    {
+        var httpClient = new HttpClient();
+        var baseUrl = "https://api.projectoxford.ai/luis/v2.0/apps/fab0c79f-240e-41dc-bd80-b9df7d39b317?subscription-key=b219e1818788401bbbfbdfd38874e5dd&q=";
+        var queryUrl = baseUrl + WebUtility.UrlEncode(message);
+        var intent = string.Empty;
+
+        var response = await httpClient.GetAsync(queryUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var bodyData = JsonConvert.DeserializeObject<LuisResponse>(responseBody);
+            intent = bodyData.topScoringIntent.intent;
+        }
+        return (intent);
+    }
+
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
         var message = await argument;
         var wait = true;
+
+        var intent = await CallLuisParkingModelAsync(message.Text);
+        await context.PostAsync(intent);
 
         if ((currentState == DialogState.Start) || (message.Text == "reset") || (message.Text == "help"))
         {
@@ -147,4 +168,18 @@ public class EchoDialog : IDialog<object>
         }
     }
 
+}
+
+public class LuisResponse
+{
+    public string query { get; set; }
+    public Intent topScoringIntent { get; set; }
+    public Intent[] intents { get; set; }
+    public object[] entities { get; set; }
+}
+
+public class Intent
+{
+    public string intent { get; set; }
+    public float score { get; set; }
 }
