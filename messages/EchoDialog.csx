@@ -5,11 +5,14 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
 
 // For more information about this template visit http://aka.ms/azurebots-csharp-basic
 [Serializable]
-public class EchoDialog : IDialog<object>
+public class EchoDialog : LuisDialog<object>
 {
     protected int count = 1;
     protected string location = "";
@@ -21,6 +24,11 @@ public class EchoDialog : IDialog<object>
         WaitingForLocation,
         WaitingForPriority
     };
+
+    public EchoDialog() : base(new LuisService(new LuisModelAttribute(Utils.GetAppSetting("LuisAppId"), Utils.GetAppSetting("LuisAPIKey"))))
+    {
+
+    }
 
     public Task StartAsync(IDialogContext context)
     {
