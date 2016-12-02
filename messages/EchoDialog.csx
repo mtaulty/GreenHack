@@ -1,5 +1,5 @@
 #r "Newtonsoft.Json"
-#r "Microsoft.Cognitive.LUIS"
+#r "System.Net.Http"
 #load "DataFormat.csx"
 #load "ParkopediaHelper.csx"
 
@@ -7,9 +7,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using System.Net.Http;
 
 // For more information about this template visit http://aka.ms/azurebots-csharp-basic
 [Serializable]
