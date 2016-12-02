@@ -12,7 +12,7 @@ using Microsoft.Bot.Connector;
 
 // For more information about this template visit http://aka.ms/azurebots-csharp-basic
 [Serializable]
-public class EchoDialog : LuisDialog<object>
+public class EchoDialog : IDialog<object>
 {
     protected int count = 1;
     protected string location = "";
@@ -25,44 +25,44 @@ public class EchoDialog : LuisDialog<object>
         WaitingForPriority
     };
 
-    public EchoDialog() : base(new LuisService(new LuisModelAttribute(Utils.GetAppSetting("LuisAppId"), Utils.GetAppSetting("LuisAPIKey"))))
-    {
-
-    }
-
-    [LuisIntent("None")]
-    public async Task NoneIntent(IDialogContext context, LuisResult result)
-    {
-        await context.PostAsync($"I'm not sure I can help you with that. I only knowabout parking."); //
-        context.Wait(MessageReceived);
-    }
-
-    [LuisIntent("FindParking")]
-    public async Task MyIntent(IDialogContext context, LuisResult result)
-    {
-        await context.PostAsync($"I'd like to be able to help with that parking need. Really. My creator hasn't given me that ability yet though. Kinda makes you doubt their existence. (You said: {result.Query})"); //
-        context.Wait(MessageReceived);
-    }
-
-    //public override Task StartAsync(IDialogContext context)
+    //public EchoDialog() : base(new LuisService(new LuisModelAttribute(Utils.GetAppSetting("LuisAppId"), Utils.GetAppSetting("LuisAPIKey"))))
     //{
-    //    var task = base.StartAsync(context);
 
-    //    try
-    //    {
-    //        context.Wait(MessageReceivedAsync);
-    //    }
-    //    catch (OperationCanceledException error)
-    //    {
-    //        return Task.FromCanceled(error.CancellationToken);
-    //    }
-    //    catch (Exception error)
-    //    {
-    //        return Task.FromException(error);
-    //    }
-
-    //    return task;
     //}
+
+    //[LuisIntent("None")]
+    //public async Task NoneIntent(IDialogContext context, LuisResult result)
+    //{
+    //    await context.PostAsync($"I'm not sure I can help you with that. I only knowabout parking."); //
+    //    context.Wait(MessageReceived);
+    //}
+
+    //[LuisIntent("FindParking")]
+    //public async Task MyIntent(IDialogContext context, LuisResult result)
+    //{
+    //    await context.PostAsync($"I'd like to be able to help with that parking need. Really. My creator hasn't given me that ability yet though. Kinda makes you doubt their existence. (You said: {result.Query})"); //
+    //    context.Wait(MessageReceived);
+    //}
+
+    public override Task StartAsync(IDialogContext context)
+    {
+        //var task = base.StartAsync(context);
+
+        try
+        {
+            context.Wait(MessageReceivedAsync);
+        }
+        catch (OperationCanceledException error)
+        {
+            return Task.FromCanceled(error.CancellationToken);
+        }
+        catch (Exception error)
+        {
+            return Task.FromException(error);
+        }
+
+        return Task.CompletedTask;
+    }
 
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
