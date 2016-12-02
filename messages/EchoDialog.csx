@@ -39,7 +39,7 @@ public class EchoDialog : LuisDialog<object>
 
     public async override Task StartAsync(IDialogContext context)
     {
-        await base.StartAsync(context);
+        //await base.StartAsync(context);
 
         try
         {
