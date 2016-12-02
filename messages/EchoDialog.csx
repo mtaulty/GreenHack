@@ -37,9 +37,9 @@ public class EchoDialog : LuisDialog<object>
     //    context.Wait(MessageReceived);
     //}
 
-    public async override Task StartAsync(IDialogContext context)
+    public override Task StartAsync(IDialogContext context)
     {
-        //await base.StartAsync(context);
+        var task = base.StartAsync(context);
 
         try
         {
@@ -54,7 +54,7 @@ public class EchoDialog : LuisDialog<object>
             return Task.FromException(error);
         }
 
-        return Task.CompletedTask;
+        return task;
     }
 
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
