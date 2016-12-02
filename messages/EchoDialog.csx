@@ -30,32 +30,32 @@ public class EchoDialog : LuisDialog<object>
 
     }
 
-    //[LuisIntent("None")]
-    //public async Task NoneIntent(IDialogContext context, LuisResult result)
-    //{
-    //    await context.PostAsync($"I'm not sure I can help you with that. I only knowabout parking."); //
-    //    context.Wait(MessageReceived);
-    //}
-
-    public override Task StartAsync(IDialogContext context)
+    [LuisIntent("None")]
+    public async Task NoneIntent(IDialogContext context, LuisResult result)
     {
-        var task = base.StartAsync(context);
-
-        try
-        {
-            context.Wait(MessageReceivedAsync);
-        }
-        catch (OperationCanceledException error)
-        {
-            return Task.FromCanceled(error.CancellationToken);
-        }
-        catch (Exception error)
-        {
-            return Task.FromException(error);
-        }
-
-        return task;
+        await context.PostAsync($"I'm not sure I can help you with that. I only knowabout parking."); //
+        context.Wait(MessageReceived);
     }
+
+    //public override Task StartAsync(IDialogContext context)
+    //{
+    //    var task = base.StartAsync(context);
+
+    //    try
+    //    {
+    //        context.Wait(MessageReceivedAsync);
+    //    }
+    //    catch (OperationCanceledException error)
+    //    {
+    //        return Task.FromCanceled(error.CancellationToken);
+    //    }
+    //    catch (Exception error)
+    //    {
+    //        return Task.FromException(error);
+    //    }
+
+    //    return task;
+    //}
 
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
     {
