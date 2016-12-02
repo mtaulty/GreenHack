@@ -90,9 +90,9 @@ public class EchoDialog : IDialog<object>
         var wait = true;
 
         var intent = await CallLuisParkingModelAsync(message.Text);
-        await context.PostAsync(intent);
+        await context.PostAsync($"LUIS thinks you are thinking of {intent}");
 
-        if ((currentState == DialogState.Start) || (message.Text == "reset") || (message.Text == "help"))
+        if ((currentState == DialogState.Start) || (intent == "Reset"))
         {
             await AfterResetAsync(context);
         }
