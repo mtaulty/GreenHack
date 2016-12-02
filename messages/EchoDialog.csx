@@ -4,11 +4,13 @@
 #load "ParkopediaHelper.csx"
 
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Connector;
-using System.Net.Http;
+using Newtonsoft.Json;
 
 // For more information about this template visit http://aka.ms/azurebots-csharp-basic
 [Serializable]
