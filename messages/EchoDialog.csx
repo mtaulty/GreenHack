@@ -161,10 +161,10 @@ public class EchoDialog : IDialog<object>
                 {
                     reply += $"\n\n{carpark}";
                 }
-                //if (response.result.NearestFreeSpace != null)
-                //{
-                //  reply += $"the nearest free space is {response.result.NearestFreeSpace}";
-                //}
+                if (response.result.NearestFreeSpace != null)
+                {
+                  reply += $"the nearest free space is {response.result.NearestFreeSpace}";
+                }
             }
             else
             {
