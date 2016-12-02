@@ -30,6 +30,13 @@ public class EchoDialog : LuisDialog<object>
 
     }
 
+    [LuisIntent("None")]
+    public async Task NoneIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"I'm not sure I can help you with that. I only knowabout parking."); //
+        context.Wait(MessageReceived);
+    }
+
     public Task StartAsync(IDialogContext context)
     {
         try
