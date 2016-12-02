@@ -37,6 +37,13 @@ public class EchoDialog : LuisDialog<object>
         context.Wait(MessageReceived);
     }
 
+    [LuisIntent("FindParking")]
+    public async Task MyIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"I'd like to be able to help with that parking need. Really. My creator hasn't given me that ability yet though. Kinda makes you doubt their existence. (You said: {result.Query})"); //
+        context.Wait(MessageReceived);
+    }
+
     //public override Task StartAsync(IDialogContext context)
     //{
     //    var task = base.StartAsync(context);
