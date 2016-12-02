@@ -44,7 +44,7 @@ public class EchoDialog : IDialog<object>
     //    context.Wait(MessageReceived);
     //}
 
-    public override Task StartAsync(IDialogContext context)
+    public Task StartAsync(IDialogContext context)
     {
         //var task = base.StartAsync(context);
 
