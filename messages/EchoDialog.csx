@@ -163,7 +163,7 @@ public class EchoDialog : IDialog<object>
                 }
                 if (response.result.NearestFreeSpace != null)
                 {
-                  reply += $"\n\nthe nearest free space is [{response.result.NearestFreeSpace.col1}]({response.result.NearestFreeSpace.DrivingDirectionsLink})";
+                  reply += $"\n\n\nThe nearest free space is [{response.result.NearestFreeSpace.col1}]({response.result.NearestFreeSpace.DrivingDirectionsLink})";
                 }
             }
             else
