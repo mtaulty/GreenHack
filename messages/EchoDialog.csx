@@ -1,4 +1,5 @@
 #r "Newtonsoft.Json"
+#r "Microsoft.Cognitive.LUIS"
 #load "DataFormat.csx"
 #load "ParkopediaHelper.csx"
 
