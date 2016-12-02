@@ -38,7 +38,7 @@ public class Result
   {
     get
     {
-      Space space = null;
+      Space returnedSpace = null;
       if ((this.spaces != null) && (this.spaces.Length > 0))
       {
         space = this.spaces
@@ -46,7 +46,7 @@ public class Result
           .OrderBy(
             space =>
             {
-              var text = space.col1.Split(" ").FirstOrDefault();
+              var text = space.col1.Split(' ').FirstOrDefault();
               var number = float.MaxValue;
               if (text != null)
               {
@@ -57,7 +57,7 @@ public class Result
           )
           .FirstOrDefault();
       }
-      return (space);
+      return (returnedSpace);
     }
   }
 }
