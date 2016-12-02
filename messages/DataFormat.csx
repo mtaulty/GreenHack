@@ -41,7 +41,7 @@ public class Result
       Space returnedSpace = null;
       if ((this.spaces != null) && (this.spaces.Length > 0))
       {
-        space = this.spaces
+        returnedSpace = this.spaces
           .Where(space => space.col3.Contains("ree"))
           .OrderBy(
             space =>
